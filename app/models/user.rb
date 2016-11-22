@@ -7,7 +7,8 @@ class User < ApplicationRecord
     format: {with: VALID_EMAIL_REGEX},
     uniqueness: {case_sensitive: true}
   has_secure_password
-  validates :password, presence: true, length: {minimum: 6}
+  validates :password, presence: {allow_nil: true},
+    length: {minimum: 6}
   validates :date_of_birth, presence: true
   
   def downcase_email
