@@ -1,0 +1,9 @@
+<% if object.active? %>
+  <span class="label label-success">
+    <%= object.status %>
+  </span>
+<% elsif object.deleted? %>
+  <span class="label label-default">
+    <%= object.status %>
+  </span>
+<% end %>

@@ -9,9 +9,12 @@ class User < ApplicationRecord
     format: {with: VALID_EMAIL_REGEX},
     uniqueness: {case_sensitive: true}
   has_secure_password
-  validates :password, presence: {allow_nil: true},
+  validates :password, presence: true, allow_nil: true,
     length: {minimum: 6}
   validates :date_of_birth, presence: true
+  validates :status, presence: true
+
+  enum status: [:active, :deleted]
 
   def downcase_email
     self.email.downcase!
@@ -32,6 +35,10 @@ class User < ApplicationRecord
   def remember
     self.remember_token = User.new_token
     update_attributes remember_digest: User.digest(remember_token)
+  end
+
+  def current_user? user
+    self == user
   end
 
   def authenticated? remember_token
