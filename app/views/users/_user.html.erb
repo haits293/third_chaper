@@ -1,0 +1,16 @@
+<li>
+  <%= gravatar_for user, size: 50 %>
+  <%= link_to user.name, user %>
+  <%= render "status", object: user %>
+  <% if current_user.is_admin? && (!current_user.current_user? user) %>
+    <% if user.active? %>
+      <span class="glyphicon glyphicon-chevron-right">
+      <%= link_to "delete", user, method: :delete,
+        data: {confirm: "You sure?"}, class: "label label-danger" %>
+    <% elsif user.deleted? %>
+      <span class="glyphicon glyphicon-chevron-right"></span>
+      <%= link_to "reactive", user, method: :patch,
+        data: {confirm: "You sure?"}, class: "label label-success" %>
+    <% end %>
+  <% end %>
+</li>
