@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, except: [:destroy]
+  before_action :logged_in_user, except: [:destroy, :new, :create]
   before_action :verify_admin, only: :destroy
   before_action :find_user, except: [:index, :new, :create]
 
   def index
-    @users = User.paginate page: params[:page],
+    @users = User.activated.paginate page: params[:page],
       per_page: Settings.per_page
   end
 
@@ -18,10 +18,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new user_params
     if @user.save
-      log_in @user
-      remember @user
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
+      @user.send_activation_email
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_url
     else
       render :new
     end
