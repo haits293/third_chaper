@@ -56,6 +56,7 @@ class User < ApplicationRecord
   end
 
   def send_activation_email
+    byebug
     UserMailer.account_activation(self).deliver_now
   end
 
