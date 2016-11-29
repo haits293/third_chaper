@@ -1,7 +1,7 @@
 <li>
   <%= gravatar_for user, size: Settings.image.size %>
   <%= link_to user.name, user %>
-  <%= render "status", object: user %>
+  <%= render "users/status", object: user %>
   <% if current_user.is_admin? && (!current_user.current_user? user) %>
     <% if user.active? %>
       <span class="glyphicon glyphicon-chevron-right">
